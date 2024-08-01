@@ -38,4 +38,5 @@ out/
 ### Property files ###
 *.properties
 *.yml
+!.github/workflows/*.yml
 

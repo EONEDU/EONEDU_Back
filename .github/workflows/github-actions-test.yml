@@ -29,10 +29,10 @@ jobs:
 #          touch ./application-prod.yml
 #          echo "${{ secrets.APPLICATION_PROD_YML }}" > ./application-prod.yml
 #        shell: bash
-      - name: gradlew에 실행 권한 부여
-        run: chmod +x ./gradlew
-      - name: 프로젝트 빌드
-        run: ./gradlew clean build -x test
+#      - name: gradlew에 실행 권한 부여
+#        run: chmod +x ./gradlew
+#      - name: 프로젝트 빌드
+#        run: ./gradlew clean build -x test
       - name: Docker build & push to prod
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}

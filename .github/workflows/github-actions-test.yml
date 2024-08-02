@@ -47,7 +47,7 @@ jobs:
           script: |
             sudo docker ps
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/eonedu_cicd
-            sudo docker stop plant
+            sudo docker stop eonedu_cicd
             sudo sleep 5s
             sudo docker run --rm --name plant -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/eonedu_cicd
             sudo docker image prune -f

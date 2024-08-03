@@ -1,7 +1,8 @@
-name: CICD Test
-run-name: Running
+name: develop build and deploy
+
 on:
   push:
+    branches: [ "dev" ]
 
 env:
   AWS_REGION: ap-northeast-2

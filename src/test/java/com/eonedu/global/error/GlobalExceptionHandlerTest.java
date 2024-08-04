@@ -16,6 +16,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.request.WebRequest;
 
+import com.eonedu.global.common.response.GlobalResponse;
 import com.eonedu.global.error.exception.CustomException;
 import com.eonedu.global.error.exception.ErrorCode;
 
@@ -45,8 +46,10 @@ class GlobalExceptionHandlerTest {
 
 		// then
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		assertInstanceOf(ErrorResponse.class, response.getBody());
-		ErrorResponse errorResponse = (ErrorResponse) response.getBody();
+		assertInstanceOf(GlobalResponse.class, response.getBody());
+		GlobalResponse globalResponse = (GlobalResponse) response.getBody();
+		assertInstanceOf(ErrorResponse.class, globalResponse.data());
+		ErrorResponse errorResponse = (ErrorResponse) globalResponse.data();
 		assertEquals(ex.getClass().getSimpleName(), errorResponse.className());
 		assertEquals(ErrorCode.METHOD_ARGUMENT_INVALID.getMessage(), errorResponse.message());
 	}
@@ -63,8 +66,10 @@ class GlobalExceptionHandlerTest {
 
 		// then
 		assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
-		assertInstanceOf(ErrorResponse.class, response.getBody());
-		ErrorResponse errorResponse = (ErrorResponse) response.getBody();
+		assertInstanceOf(GlobalResponse.class, response.getBody());
+		GlobalResponse globalResponse = (GlobalResponse) response.getBody();
+		assertInstanceOf(ErrorResponse.class, globalResponse.data());
+		ErrorResponse errorResponse = (ErrorResponse) globalResponse.data();
 		assertEquals(ex.getClass().getSimpleName(), errorResponse.className());
 		assertEquals(ErrorCode.METHOD_NOT_SUPPORTED.getMessage(), errorResponse.message());
 	}
@@ -81,8 +86,10 @@ class GlobalExceptionHandlerTest {
 
 		// then
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertInstanceOf(ErrorResponse.class, response.getBody());
-		ErrorResponse errorResponse = (ErrorResponse) response.getBody();
+		assertInstanceOf(GlobalResponse.class, response.getBody());
+		GlobalResponse globalResponse = (GlobalResponse) response.getBody();
+		assertInstanceOf(ErrorResponse.class, globalResponse.data());
+		ErrorResponse errorResponse = (ErrorResponse) globalResponse.data();
 		assertEquals(ex.getClass().getSimpleName(), errorResponse.className());
 		assertEquals(ErrorCode.INTERNAL_SERVER_ERROR.getMessage(), errorResponse.message());
 	}
@@ -99,8 +106,10 @@ class GlobalExceptionHandlerTest {
 		// then
 		assertNotNull(response);
 		assertEquals(ex.getErrorCode().getHttpStatus(), response.getStatusCode());
-		assertInstanceOf(ErrorResponse.class, response.getBody());
-		ErrorResponse errorResponse = (ErrorResponse)(response.getBody());
+		assertInstanceOf(GlobalResponse.class, response.getBody());
+		GlobalResponse globalResponse = (GlobalResponse) response.getBody();
+		assertInstanceOf(ErrorResponse.class, globalResponse.data());
+		ErrorResponse errorResponse = (ErrorResponse) globalResponse.data();
 		assertEquals(ex.getClass().getSimpleName(), errorResponse.className());
 		assertEquals(ErrorCode.SAMPLE_ERROR.getMessage(), errorResponse.message());
 	}
@@ -116,8 +125,10 @@ class GlobalExceptionHandlerTest {
 
 		// then
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertInstanceOf(ErrorResponse.class, response.getBody());
-		ErrorResponse errorResponse = (ErrorResponse) response.getBody();
+		assertInstanceOf(GlobalResponse.class, response.getBody());
+		GlobalResponse globalResponse = (GlobalResponse) response.getBody();
+		assertInstanceOf(ErrorResponse.class, globalResponse.data());
+		ErrorResponse errorResponse = (ErrorResponse) globalResponse.data();
 		assertEquals(ex.getClass().getSimpleName(), errorResponse.className());
 		assertEquals(ErrorCode.INTERNAL_SERVER_ERROR.getMessage(), errorResponse.message());
 	}

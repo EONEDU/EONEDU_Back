@@ -10,5 +10,7 @@ ARG JAR_FILE=build/libs/*.jar
 # jar 파일을 복사한다.
 COPY ${JAR_FILE} app.jar
 
+COPY .env .
+
 # jar 파일을 실행한다.
-ENTRYPOINT ENTRYPOINT ["sh", "-c", "java -Dspring.config.import='optional:file:../../.env[.properties]' -jar eonedu-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-Dspring.config.import=optional:file:.env[.properties]" , "-Dspring.profiles.active=dev", "-jar", "/app.jar"]

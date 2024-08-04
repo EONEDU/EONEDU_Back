@@ -20,15 +20,15 @@ jobs:
           distribution: 'zulu'
       - name: .env 생성
         run: |
-          touch ./application.yml
+          touch ./env
           echo "${{ secrets.ENV }}" > ./.env
         shell: bash
-      - name: application.yml 생성
-        run: |
-          cd ./src/main/resources
-          touch ./application.yml
-          echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
-        shell: bash
+#      - name: application.yml 생성
+#        run: |
+#          cd ./src/main/resources
+#          touch ./application.yml
+#          echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
+#        shell: bash
 #      - name: application-prod.yml 생성
 #        run: |
 #          cd ./src/main/resources

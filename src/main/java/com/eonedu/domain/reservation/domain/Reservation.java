@@ -1,7 +1,7 @@
 package com.eonedu.domain.reservation.domain;
 
 import com.eonedu.domain.branch.domain.Branch;
-import com.eonedu.domain.common.model.BaseEntity;
+import com.eonedu.domain.model.BaseEntity;
 
 import jakarta.persistence.*;
 

@@ -1,6 +1,6 @@
 package com.eonedu.domain.branch.domain;
 
-import com.eonedu.domain.common.model.BaseEntity;
+import com.eonedu.domain.model.BaseEntity;
 import jakarta.persistence.*;
 
 @Entity

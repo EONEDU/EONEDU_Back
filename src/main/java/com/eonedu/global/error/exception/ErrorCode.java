@@ -26,6 +26,9 @@ public enum ErrorCode {
 	// Image
 
 	// Verification
+
+
+	SAMPLE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "샘플 에러입니다."),
 	;
 
 	private final HttpStatus httpStatus;

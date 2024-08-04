@@ -1,4 +1,4 @@
-package com.eonedu.domain.common.model;
+package com.eonedu.domain.model;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

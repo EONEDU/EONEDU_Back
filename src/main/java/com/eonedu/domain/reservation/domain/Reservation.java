@@ -3,11 +3,10 @@ package com.eonedu.domain.reservation.domain;
 import com.eonedu.domain.branch.domain.Branch;
 import com.eonedu.domain.counseltype.domain.CounselType;
 import com.eonedu.domain.model.BaseEntity;
-
-import lombok.Getter;
 import jakarta.persistence.*;
+import lombok.Getter;
+
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Getter
 @Entity
@@ -22,7 +21,8 @@ public class Reservation extends BaseEntity{
     protected LocalDate date;
 
     @Column(nullable = false)
-    protected LocalTime startTime;
+    @Enumerated(EnumType.STRING)
+    protected ReservationTime time;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "branch_id")

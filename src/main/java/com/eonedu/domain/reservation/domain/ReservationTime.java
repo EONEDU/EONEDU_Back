@@ -1,0 +1,25 @@
+package com.eonedu.domain.reservation.domain;
+
+public enum ReservationTime {
+
+    // 30분 단위로 예약 가능 10:00 ~ 21:30
+    TEN("10:00"), TEN_HALF("10:30"),
+    ELEVEN("11:00"), ELEVEN_HALF("11:30"),
+    TWELVE("12:00"), TWELVE_HALF("12:30"),
+    THIRTEEN("13:00"), THIRTEEN_HALF("13:30"),
+    FOURTEEN("14:00"), FOURTEEN_HALF("14:30"),
+    FIFTEEN("15:00"), FIFTEEN_HALF("15:30"),
+    SIXTEEN("16:00"), SIXTEEN_HALF("16:30"),
+    SEVENTEEN("17:00"), SEVENTEEN_HALF("17:30"),
+    EIGHTEEN("18:00"), EIGHTEEN_HALF("18:30"),
+    NINETEEN("19:00"), NINETEEN_HALF("19:30"),
+    TWENTY("20:00"), TWENTY_HALF("20:30"),
+    TWENTY_ONE("21:00"), TWENTY_ONE_HALF("21:30");
+
+    private final String time;
+
+    ReservationTime(String time) {
+        this.time = time;
+    }
+
+}

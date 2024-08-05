@@ -44,13 +44,13 @@ public class ReservationController {
         return reservation.getId();
     }
 
-    @PutMapping("/v1/reservations/{reservation_id}")
-    public ClientReservationUpdateResponse updateReservation(@PathVariable("reservation_id") Long reservationId,
-                                                      @RequestBody ClientReservationUpdateRequest request){
-        ClientReservation reservation = reservationService.updateReservation(reservationId, request);
-
-        return new ClientReservationUpdateResponse(reservation);
-    }
+//    @PutMapping("/v1/reservations/{reservation_id}")
+//    public ClientReservationUpdateResponse updateReservation(@PathVariable("reservation_id") Long reservationId,
+//                                                      @RequestBody ClientReservationUpdateRequest request){
+//        ClientReservation reservation = reservationService.updateReservation(reservationId, request);
+//
+//        return new ClientReservationUpdateResponse(reservation);
+//    }
 
     @DeleteMapping("/v1/reservations/{reservation_id}")
     public String deleteReservation(@PathVariable("reservation_id") Long reservationId){

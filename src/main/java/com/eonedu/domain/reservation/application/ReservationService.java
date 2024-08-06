@@ -29,27 +29,14 @@ public class ReservationService {
     private final CounselTypeRepository counselTypeRepository;
 
     @Transactional(readOnly = true)
-    public List<Reservation> getReservationByDate(LocalDate date){
-        List<Reservation> reservations = reservationRepository.findByDate(date);
+    public List<Reservation> findExistedReservation(Long branchId, Long counselTypeId, LocalDate date){
+        Branch branch = branchRepository.findById(branchId)
+                .orElseThrow(() -> new IllegalArgumentException("Branch not found"));
 
-        //Lazy Loading
-        reservations.forEach(reservation -> {
-            reservation.getBranch().getName();
-            reservation.getCounselType().getName();
-        });
+        CounselType counselType = counselTypeRepository.findById(counselTypeId)
+                .orElseThrow(() -> new IllegalArgumentException("CounselType not found"));
 
-        return reservations;
-    }
-
-    @Transactional(readOnly = true)
-    public List<Reservation>getReservationByPhone(String clientPhone){
-        List<Reservation> reservations = clientReservationRepository.findByClientPhone(clientPhone);
-
-        //Lazy Loading
-        reservations.forEach(reservation -> {
-            reservation.getBranch().getName();
-            reservation.getCounselType().getName();
-        });
+        List<Reservation> reservations = reservationRepository.findByBranchAndCounselTypeAndDate(branch, counselType, date);
 
         return reservations;
     }
@@ -104,8 +91,12 @@ public class ReservationService {
     }
 
     private void isReservationPossible(CounselType counselType, Branch branch, LocalDate date, ReservationTime time){
-        if(reservationRepository.existsByDateAndTimeAndBranchAndCounselType(date, time, branch, counselType)){
-            throw new IllegalArgumentException("Reservation already exists");
-        }
+        // Check if the reservation already exists
+        reservationRepository.findByBranchAndCounselTypeAndDate(branch, counselType, date)
+                .forEach((reservation) -> {
+                    if (reservation.getTime().equals(time)){
+                        throw new IllegalArgumentException("Reservation already exists");
+                    }
+                });
     }
 }

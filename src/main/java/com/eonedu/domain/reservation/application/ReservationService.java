@@ -83,11 +83,11 @@ public class ReservationService {
 //    }
 
     @Transactional
-    public void deleteReservation(Long reservationId){
-        Reservation reservation = reservationRepository.findById(reservationId)
+    public void cancelClientReservation(String reservationUuid){
+        ClientReservation clientReservation = clientReservationRepository.findByReservationRandomId(reservationUuid)
                 .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
 
-        reservationRepository.delete(reservation);
+        clientReservationRepository.delete(clientReservation);
     }
 
     private void isReservationPossible(CounselType counselType, Branch branch, LocalDate date, ReservationTime time){

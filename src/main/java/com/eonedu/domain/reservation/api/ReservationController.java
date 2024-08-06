@@ -4,6 +4,7 @@ import com.eonedu.domain.reservation.application.ReservationService;
 import com.eonedu.domain.reservation.domain.ClientReservation;
 import com.eonedu.domain.reservation.domain.Reservation;
 import com.eonedu.domain.reservation.dto.request.ClientReservationCreateRequest;
+import com.eonedu.domain.reservation.dto.response.ClientReservationCreateResponse;
 import com.eonedu.domain.reservation.dto.response.ReservationByDateResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +25,10 @@ public class ReservationController {
     }
 
     @PostMapping("/v1/reservations")
-    public Long createClientReservation(@RequestBody ClientReservationCreateRequest request){
+    public ClientReservationCreateResponse createClientReservation(@RequestBody ClientReservationCreateRequest request){
         ClientReservation reservation = reservationService.createClientReservation(request);
 
-        return reservation.getId();
+        return new ClientReservationCreateResponse(reservation);
     }
 
 //    @PutMapping("/v1/reservations/{reservation_id}")
@@ -38,9 +39,9 @@ public class ReservationController {
 //        return new ClientReservationUpdateResponse(reservation);
 //    }
 
-    @DeleteMapping("/v1/reservations/{reservation_id}")
-    public String deleteReservation(@PathVariable("reservation_id") Long reservationId){
-        reservationService.deleteReservation(reservationId);
+    @DeleteMapping("/v1/reservations/{reservationUuid}")
+    public String deleteReservation(@PathVariable String reservationUuid){
+        reservationService.cancelClientReservation(reservationUuid);
         return "Reservation deleted";
     }
 }

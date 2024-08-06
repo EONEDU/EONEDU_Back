@@ -5,22 +5,19 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 
+@Deprecated
 @Getter
-public class ClientReservationCreateResponse {
+public class ClientReservationReadResponse {
     private final String reservationUuid;
     private final String counselTypeName;
     private final String branchName;
-    private final String clientName;
-    private final String clientPhone;
     private final LocalDate date;
     private final String time;
 
-    public ClientReservationCreateResponse(ClientReservation reservation){
+    public ClientReservationReadResponse(ClientReservation reservation){
         this.reservationUuid = reservation.getReservationRandomId();
         this.counselTypeName = reservation.getCounselType().getName();
         this.branchName = reservation.getBranch().getName();
-        this.clientName = reservation.getClientName();
-        this.clientPhone = reservation.getClientPhone();
         this.date = reservation.getDate();
         this.time = reservation.getTime().getTimeString();
     }

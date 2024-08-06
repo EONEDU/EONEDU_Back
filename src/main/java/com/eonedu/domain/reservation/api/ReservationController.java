@@ -4,7 +4,8 @@ import com.eonedu.domain.reservation.application.ReservationService;
 import com.eonedu.domain.reservation.domain.ClientReservation;
 import com.eonedu.domain.reservation.domain.Reservation;
 import com.eonedu.domain.reservation.dto.request.ClientReservationCreateRequest;
-import com.eonedu.domain.reservation.dto.response.ClientReservationCreateResponse;
+import com.eonedu.domain.reservation.dto.request.ClientReservationReadRequest;
+import com.eonedu.domain.reservation.dto.response.ClientReservationResponse;
 import com.eonedu.domain.reservation.dto.response.ReservationByDateResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,11 +25,18 @@ public class ReservationController {
             return new ReservationByDateResponse(reservations);
     }
 
+    @PostMapping("/v1/reservations/{reservationUuid}")
+    public ClientReservationResponse getClientReservation(@PathVariable String reservationUuid,
+                                                        @RequestBody ClientReservationReadRequest request){
+        ClientReservation reservation = reservationService.findClientReservation(reservationUuid, request.getClientName(), request.getClientPhone());
+        return new ClientReservationResponse(reservation);
+    }
+
     @PostMapping("/v1/reservations")
-    public ClientReservationCreateResponse createClientReservation(@RequestBody ClientReservationCreateRequest request){
+    public ClientReservationResponse createClientReservation(@RequestBody ClientReservationCreateRequest request){
         ClientReservation reservation = reservationService.createClientReservation(request);
 
-        return new ClientReservationCreateResponse(reservation);
+        return new ClientReservationResponse(reservation);
     }
 
 //    @PutMapping("/v1/reservations/{reservation_id}")
@@ -39,9 +47,11 @@ public class ReservationController {
 //        return new ClientReservationUpdateResponse(reservation);
 //    }
 
-    @DeleteMapping("/v1/reservations/{reservationUuid}")
-    public String deleteReservation(@PathVariable String reservationUuid){
-        reservationService.cancelClientReservation(reservationUuid);
+    @PostMapping("/v1/reservations/{reservationUuid}/delete")
+    public String deleteReservation(@PathVariable String reservationUuid,
+                                    @RequestBody ClientReservationReadRequest request){
+
+        reservationService.cancelClientReservation(reservationUuid, request.getClientName(), request.getClientPhone());
         return "Reservation deleted";
     }
 }

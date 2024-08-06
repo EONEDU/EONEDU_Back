@@ -41,6 +41,20 @@ public class ReservationService {
         return reservations;
     }
 
+    @Transactional(readOnly = true)
+    public ClientReservation findClientReservation(String reservationUuid, String clientName, String clientPhone){
+        ClientReservation reservation =  clientReservationRepository.findByReservationRandomId(reservationUuid)
+                .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
+
+        validateClient(reservation, clientName, clientPhone);
+
+        //Lazy Loading
+        reservation.getBranch().getName();
+        reservation.getCounselType().getName();
+
+        return reservation;
+    }
+
     @Transactional
     public ClientReservation createClientReservation(ClientReservationCreateRequest request){
         Branch branch = branchRepository.findById(request.getBranchId())
@@ -83,9 +97,11 @@ public class ReservationService {
 //    }
 
     @Transactional
-    public void cancelClientReservation(String reservationUuid){
+    public void cancelClientReservation(String reservationUuid, String clientName, String clientPhone){
         ClientReservation clientReservation = clientReservationRepository.findByReservationRandomId(reservationUuid)
                 .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
+
+        validateClient(clientReservation, clientName, clientPhone);
 
         clientReservationRepository.delete(clientReservation);
     }
@@ -98,5 +114,11 @@ public class ReservationService {
                         throw new IllegalArgumentException("Reservation already exists");
                     }
                 });
+    }
+
+    private void validateClient(ClientReservation reservation, String clientName, String clientPhone){
+        if (!reservation.getClientName().equals(clientName) || !reservation.getClientPhone().equals(clientPhone)){
+            throw new IllegalArgumentException("Client information does not match");
+        }
     }
 }

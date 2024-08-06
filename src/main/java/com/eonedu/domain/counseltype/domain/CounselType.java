@@ -12,7 +12,7 @@ public class CounselType extends BaseEntity {
     @Column(name = "counsel_type_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     public static CounselType from(String name) {

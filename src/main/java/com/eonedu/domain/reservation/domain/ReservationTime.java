@@ -15,11 +15,22 @@ public enum ReservationTime {
     NINETEEN("19:00"), NINETEEN_HALF("19:30"),
     TWENTY("20:00"), TWENTY_HALF("20:30"),
     TWENTY_ONE("21:00"), TWENTY_ONE_HALF("21:30");
+    private final String timeString;
 
-    private final String time;
-
-    ReservationTime(String time) {
-        this.time = time;
+    ReservationTime(String timeString) {
+        this.timeString = timeString;
     }
 
+    public String getTimeString() {
+        return timeString;
+    }
+
+    public static ReservationTime find(String time){
+        for(ReservationTime reservationTime : ReservationTime.values()){
+            if(reservationTime.getTimeString().equals(time)){
+                return reservationTime;
+            }
+        }
+        return null;
+    }
 }

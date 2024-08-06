@@ -9,6 +9,7 @@ import com.eonedu.domain.reservation.dao.ClientReservationRepository;
 import com.eonedu.domain.reservation.dao.ReservationRepository;
 import com.eonedu.domain.reservation.domain.ClientReservation;
 import com.eonedu.domain.reservation.domain.Reservation;
+import com.eonedu.domain.reservation.domain.ReservationTime;
 import com.eonedu.domain.reservation.dto.request.ClientReservationCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -61,11 +62,15 @@ public class ReservationService {
         CounselType counselType = counselTypeRepository.findById(request.getCounselTypeId())
                 .orElseThrow(() -> new IllegalArgumentException("CounselType not found"));
 
+        ReservationTime reservationTime = ReservationTime.find(request.getTime());
+
+        isReservationPossible(counselType, branch, request.getDate(), reservationTime);
+
         ClientReservation clientReservation = ClientReservation.builder()
                 .branch(branch)
                 .counselType(counselType)
                 .date(request.getDate())
-                .startTime(request.getTime())
+                .time(ReservationTime.find(request.getTime()))
                 .clientName(request.getClientName())
                 .clientPhone(request.getClientPhone())
                 .build();
@@ -73,6 +78,7 @@ public class ReservationService {
         return clientReservationRepository.save(clientReservation);
     }
 
+//    @Deprecated
 //    @Transactional
 //    public ClientReservation updateReservation(Long reservationId, ClientReservationUpdateRequest request) {
 //        ClientReservation clientReservation = clientReservationRepository.findById(reservationId)
@@ -95,5 +101,11 @@ public class ReservationService {
                 .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
 
         reservationRepository.delete(reservation);
+    }
+
+    private void isReservationPossible(CounselType counselType, Branch branch, LocalDate date, ReservationTime time){
+        if(reservationRepository.existsByDateAndTimeAndBranchAndCounselType(date, time, branch, counselType)){
+            throw new IllegalArgumentException("Reservation already exists");
+        }
     }
 }

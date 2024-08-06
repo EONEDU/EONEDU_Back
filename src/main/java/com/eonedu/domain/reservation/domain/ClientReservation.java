@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
 @NoArgsConstructor
@@ -19,19 +18,20 @@ public class ClientReservation extends Reservation{
     private String clientPhone;
 
     @Builder
-    public ClientReservation(Long id, CounselType counselType, Branch branch, LocalDate date, LocalTime startTime,  String clientName, String clientPhone) {
+    public ClientReservation(Long id, CounselType counselType, Branch branch, LocalDate date, ReservationTime time,  String clientName, String clientPhone) {
         this.id = id;
         this.counselType = counselType;
         this.branch = branch;
         this.date = date;
-        this.startTime = startTime;
+        this.time = time;
         this.clientName = clientName;
         this.clientPhone = clientPhone;
     }
 
-    public void update(LocalDate date, LocalTime time, Branch branch, CounselType counselType){
+    @Deprecated
+    public void update(LocalDate date, ReservationTime time, Branch branch, CounselType counselType){
         this.date = date;
-        this.startTime = time;
+        this.time = time;
         this.branch = branch;
         this.counselType = counselType;
     }

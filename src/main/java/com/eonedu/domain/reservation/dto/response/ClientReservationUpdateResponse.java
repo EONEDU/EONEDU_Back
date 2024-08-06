@@ -1,11 +1,12 @@
 package com.eonedu.domain.reservation.dto.response;
 
 import com.eonedu.domain.reservation.domain.ClientReservation;
+import com.eonedu.domain.reservation.domain.ReservationTime;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
+@Deprecated
 @Getter
 public class ClientReservationUpdateResponse {
     private Long id;
@@ -13,7 +14,7 @@ public class ClientReservationUpdateResponse {
     private Long branchId;
     private Long counselTypeId;
     private LocalDate date;
-    private LocalTime time;
+    private ReservationTime time;
     private String clientName;
     private String clientPhone;
 
@@ -22,7 +23,7 @@ public class ClientReservationUpdateResponse {
         this.branchId = reservation.getBranch().getId();
         this.counselTypeId = reservation.getCounselType().getId();
         this.date = reservation.getDate();
-        this.time = reservation.getStartTime();
+        this.time = reservation.getTime();
         this.clientName = reservation.getClientName();
         this.clientPhone = reservation.getClientPhone();
     }

@@ -1,14 +1,15 @@
 package com.eonedu.domain.reservation.dto.request;
 
+import com.eonedu.domain.reservation.domain.ReservationTime;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
+@Deprecated
 @Getter
 public class ClientReservationUpdateRequest {
     private LocalDate date;
-    private LocalTime time;
+    private ReservationTime time;
     private Long branchId;
     private Long counselTypeId;
 }

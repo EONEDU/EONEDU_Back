@@ -37,7 +37,6 @@ out/
 
 ### Property files ###
 *.properties
-src/main/resources/.env
 
 ### DB Files ###
 .db

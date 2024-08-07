@@ -28,6 +28,7 @@ public class ReservationService {
     private final BranchRepository branchRepository;
     private final CounselTypeRepository counselTypeRepository;
 
+    // 이미 존재하는 상담 예약 조회 (날짜, 지점, 상담유형)
     @Transactional(readOnly = true)
     public List<Reservation> findExistedReservation(Long branchId, Long counselTypeId, LocalDate date){
         Branch branch = branchRepository.findById(branchId)
@@ -41,20 +42,7 @@ public class ReservationService {
         return reservations;
     }
 
-    @Transactional(readOnly = true)
-    public ClientReservation findClientReservation(String reservationUuid, String clientName, String clientPhone){
-        ClientReservation reservation =  clientReservationRepository.findByReservationRandomId(reservationUuid)
-                .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
-
-        validateClient(reservation, clientName, clientPhone);
-
-        //Lazy Loading
-        reservation.getBranch().getName();
-        reservation.getCounselType().getName();
-
-        return reservation;
-    }
-
+    // 상담 예약 생성
     @Transactional
     public ClientReservation createClientReservation(ClientReservationCreateRequest request){
         Branch branch = branchRepository.findById(request.getBranchId())
@@ -79,23 +67,22 @@ public class ReservationService {
         return clientReservationRepository.save(clientReservation);
     }
 
-//    @Deprecated
-//    @Transactional
-//    public ClientReservation updateReservation(Long reservationId, ClientReservationUpdateRequest request) {
-//        ClientReservation clientReservation = clientReservationRepository.findById(reservationId)
-//                .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
-//
-//        Branch branch = branchRepository.findById(request.getBranchId())
-//                .orElseThrow(() -> new IllegalArgumentException("Branch not found"));
-//
-//        CounselType counselType = counselTypeRepository.findById(request.getCounselTypeId())
-//                .orElseThrow(() -> new IllegalArgumentException("CounselType not found"));
-//
-//        clientReservation.update(request.getDate(), request.getTime(), branch, counselType);
-//
-//        return clientReservation;
-//    }
+    // uuid, 고객 이름, 전화번호 이용해 상담 예약 조회
+    @Transactional(readOnly = true)
+    public ClientReservation findClientReservation(String reservationUuid, String clientName, String clientPhone){
+        ClientReservation reservation =  clientReservationRepository.findByReservationRandomId(reservationUuid)
+                .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
 
+        validateClient(reservation, clientName, clientPhone);
+
+        //Lazy Loading
+        reservation.getBranch().getName();
+        reservation.getCounselType().getName();
+
+        return reservation;
+    }
+
+    // uuid, 고객 이름, 전화번호 받아 상담 예약 삭제
     @Transactional
     public void cancelClientReservation(String reservationUuid, String clientName, String clientPhone){
         ClientReservation clientReservation = clientReservationRepository.findByReservationRandomId(reservationUuid)
@@ -106,6 +93,7 @@ public class ReservationService {
         clientReservationRepository.delete(clientReservation);
     }
 
+    // 특정 지점, 상담 유형, 날짜, 시간에 예약이 가능한지 확인
     private void isReservationPossible(CounselType counselType, Branch branch, LocalDate date, ReservationTime time){
         // Check if the reservation already exists
         reservationRepository.findByBranchAndCounselTypeAndDate(branch, counselType, date)
@@ -116,6 +104,7 @@ public class ReservationService {
                 });
     }
 
+    // 예약한 고객 정보가 일치하는지 확인
     private void validateClient(ClientReservation reservation, String clientName, String clientPhone){
         if (!reservation.getClientName().equals(clientName) || !reservation.getClientPhone().equals(clientPhone)){
             throw new IllegalArgumentException("Client information does not match");

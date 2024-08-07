@@ -31,9 +31,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	) {
 		log.error("MethodArgumentNotValid : {}", ex.getMessage(), ex);
 		final ErrorCode errorCode = ErrorCode.METHOD_ARGUMENT_INVALID;
-		final ErrorResponse errorResponse = ErrorResponse.of(ex.getClass().getSimpleName(), errorCode.getMessage());
-		final GlobalResponse globalResponse = GlobalResponse.fail(errorCode.getHttpStatus().value(), errorResponse);
-		return ResponseEntity.status(errorCode.getHttpStatus()).body(globalResponse);
+		return createErrorResponseEntity(ex, errorCode);
 	}
 
 	@Override
@@ -45,9 +43,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	) {
 		log.error("HttpRequestMethodNotSupported : {}", ex.getMessage(), ex);
 		final ErrorCode errorCode = ErrorCode.METHOD_NOT_SUPPORTED;
-		final ErrorResponse errorResponse = ErrorResponse.of(ex.getClass().getSimpleName(), errorCode.getMessage());
-		final GlobalResponse globalResponse = GlobalResponse.fail(errorCode.getHttpStatus().value(), errorResponse);
-		return ResponseEntity.status(errorCode.getHttpStatus()).body(globalResponse);
+		return createErrorResponseEntity(ex, errorCode);
 	}
 
 	@Override
@@ -60,24 +56,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	) {
 		log.error("ExceptionInternal : {}", ex.getMessage(), ex);
 		final ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
-		final ErrorResponse errorResponse = ErrorResponse.of(ex.getClass().getSimpleName(), errorCode.getMessage());
-		final GlobalResponse globalResponse = GlobalResponse.fail(errorCode.getHttpStatus().value(), errorResponse);
-		return ResponseEntity.status(errorCode.getHttpStatus()).body(globalResponse);
+		return createErrorResponseEntity(ex, errorCode);
 	}
 
 	@ExceptionHandler(CustomException.class)
 	public ResponseEntity<Object> handleCustomException(CustomException ex) {
 		log.error("CustomException : {}", ex.getMessage(), ex);
 		final ErrorCode errorCode = ex.getErrorCode();
-		final ErrorResponse errorResponse = ErrorResponse.of(ex.getClass().getSimpleName(), errorCode.getMessage());
-		final GlobalResponse globalResponse = GlobalResponse.fail(errorCode.getHttpStatus().value(), errorResponse);
-		return ResponseEntity.status(errorCode.getHttpStatus()).body(globalResponse);
+		return createErrorResponseEntity(ex, errorCode);
 	}
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Object> handleException(Exception ex) {
 		log.error("InternalServerError : {}", ex.getMessage(), ex);
 		final ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
+		return createErrorResponseEntity(ex, errorCode);
+	}
+
+	private ResponseEntity<Object> createErrorResponseEntity(final Exception ex, final ErrorCode errorCode) {
 		final ErrorResponse errorResponse = ErrorResponse.of(ex.getClass().getSimpleName(), errorCode.getMessage());
 		final GlobalResponse globalResponse = GlobalResponse.fail(errorCode.getHttpStatus().value(), errorResponse);
 		return ResponseEntity.status(errorCode.getHttpStatus()).body(globalResponse);

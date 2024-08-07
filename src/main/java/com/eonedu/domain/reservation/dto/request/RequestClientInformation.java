@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
-public class ClientReservationReadRequest {
+public class RequestClientInformation {
     private String clientName;
     private String clientPhone;
 }

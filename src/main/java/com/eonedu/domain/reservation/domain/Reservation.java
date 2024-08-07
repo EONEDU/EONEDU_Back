@@ -26,11 +26,9 @@ public class Reservation extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "branch_id")
-    @Column(nullable = false)
     protected Branch branch;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "counsel_type_id")
-    @Column(nullable = false)
     protected CounselType counselType;
 }

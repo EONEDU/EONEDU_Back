@@ -1,5 +1,6 @@
 package com.eonedu.domain.reservation.domain;
 
+// 예약 가능 시간을 설정하기 위한 Enum
 public enum ReservationTime {
 
     // 30분 단위로 예약 가능 10:00 ~ 21:30
@@ -25,12 +26,14 @@ public enum ReservationTime {
         return timeString;
     }
 
+    // 시간 문자열 ex) "10:00"을 받아서 해당하는 Enum을 반환, 없으면 에러 반환
     public static ReservationTime find(String time){
         for(ReservationTime reservationTime : ReservationTime.values()){
             if(reservationTime.getTimeString().equals(time)){
                 return reservationTime;
             }
         }
-        return null;
+
+        throw new IllegalArgumentException("예약 가능 시간이 아닙니다.");
     }
 }

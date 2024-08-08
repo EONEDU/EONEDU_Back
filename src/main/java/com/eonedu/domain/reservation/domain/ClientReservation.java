@@ -5,13 +5,16 @@ import com.eonedu.domain.counseltype.domain.CounselType;
 import com.eonedu.global.util.RandomIdMaker;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ClientReservation extends Reservation{
     @Column(nullable = false)
     private String clientName;
@@ -24,9 +27,6 @@ public class ClientReservation extends Reservation{
 
     @Column(nullable = false)
     private ReservationState state;
-
-    //JPA용 기본 생성자
-    protected ClientReservation() {}
 
     // 매게변수가 많아 Builder를 사용하여 객체를 생성
     @Builder

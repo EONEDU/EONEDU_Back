@@ -2,11 +2,13 @@ package com.eonedu.domain.branch.domain;
 
 import com.eonedu.domain.model.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-@Getter @Setter
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Branch extends BaseEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "branch_id")
@@ -16,8 +18,11 @@ public class Branch extends BaseEntity{
     private String name;
 
     public static Branch from(String name) {
-        Branch branch = new Branch();
-        branch.name = name;
-        return branch;
+        return new Branch(name);
+    }
+
+    // 빌더 패턴용 private 생성자
+    private Branch(String name) {
+        this.name = name;
     }
 }

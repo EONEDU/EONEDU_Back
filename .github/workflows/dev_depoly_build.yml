@@ -2,7 +2,7 @@ name: develop build and deploy
 
 on:
   push:
-    branches: [ "dev" ]
+    branches:
 
 env:
   AWS_REGION: ap-northeast-2
@@ -51,9 +51,9 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            sudo docker ps
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/eonedu_cicd
-            sudo docker stop eonedu_cicd
-            sudo sleep 5s
-            sudo docker run --rm --name eonedu_cicd -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/eonedu_cicd
-            sudo docker image prune -f
+            docker ps
+            docker pull ${{ secrets.DOCKER_USERNAME }}/eonedu_cicd
+            docker stop eonedu_cicd
+            sleep 5s
+            docker run --rm --name eonedu_cicd -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/eonedu_cicd
+            docker image prune -f

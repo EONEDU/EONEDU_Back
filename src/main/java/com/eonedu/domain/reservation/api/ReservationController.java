@@ -20,7 +20,7 @@ public class ReservationController {
 
     // 이미 존재하는 상담 예약 조회하는 API (날짜, 지점, 상담유형)
     @GetMapping("/v1/reservations")
-    public ReservationByDateResponse getReservationByDate(@RequestParam Long branchId,
+    public ReservationByDateResponse findExistingReservation(@RequestParam Long branchId,
                                                            @RequestParam Long counselTypeId,
                                                            @RequestParam LocalDate date){
             List<Reservation> reservations = reservationService.findExistedReservation(branchId, counselTypeId, date);

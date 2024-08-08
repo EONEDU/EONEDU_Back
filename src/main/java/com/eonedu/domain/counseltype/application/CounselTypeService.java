@@ -16,7 +16,7 @@ public class CounselTypeService {
 
     @Transactional
     public CounselType createCounselType(CounselTypeCreateRequest request) {
-        CounselType counselType = CounselType.from(request.getName());
+        CounselType counselType = CounselType.from(request.name());
 
         return counselTypeRepository.save(counselType);
     }

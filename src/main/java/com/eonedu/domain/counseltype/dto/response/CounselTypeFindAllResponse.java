@@ -1,29 +1,22 @@
 package com.eonedu.domain.counseltype.dto.response;
 
 import com.eonedu.domain.counseltype.domain.CounselType;
-import lombok.Getter;
 
 import java.util.List;
 
-@Getter
-public class CounselTypeFindAllResponse {
-    private List<CounselTypeDto> counselTypes;
+public record CounselTypeFindAllResponse (List<CounselTypeDto> counselTypes) {
 
-    public CounselTypeFindAllResponse(List<CounselType> counselTypes) {
-        this.counselTypes = counselTypes.stream()
-                .map(CounselTypeDto::new)
-                .toList();
+    public static CounselTypeFindAllResponse from(List<CounselType> counselTypes) {
+        return new CounselTypeFindAllResponse(counselTypes.stream()
+                .map(CounselTypeDto::from)
+                .toList());
     }
 
 
-    @Getter
-    static class CounselTypeDto {
-        private Long id;
-        private String name;
+    static record CounselTypeDto (Long id, String name) {
 
-        public CounselTypeDto(CounselType counselType) {
-            this.id = counselType.getId();
-            this.name = counselType.getName();
+        public static CounselTypeDto from(CounselType counselType) {
+            return new CounselTypeDto(counselType.getId(), counselType.getName());
         }
     }
 }

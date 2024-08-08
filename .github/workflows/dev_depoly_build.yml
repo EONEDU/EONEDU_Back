@@ -2,7 +2,7 @@ name: develop build and deploy
 
 on:
   push:
-    branches:
+    branches: [ 'dev' ]
 
 env:
   AWS_REGION: ap-northeast-2
@@ -23,18 +23,6 @@ jobs:
           touch ./env
           echo "${{ secrets.ENV }}" > ./.env
         shell: bash
-#      - name: application.yml 생성
-#        run: |
-#          cd ./src/main/resources
-#          touch ./application.yml
-#          echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
-#        shell: bash
-#      - name: application-prod.yml 생성
-#        run: |
-#          cd ./src/main/resources
-#          touch ./application-prod.yml
-#          echo "${{ secrets.APPLICATION_PROD_YML }}" > ./application-prod.yml
-#        shell: bash
       - name: gradlew에 실행 권한 부여
         run: chmod +x ./gradlew
       - name: 프로젝트 빌드
@@ -51,9 +39,9 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            docker ps
-            docker pull ${{ secrets.DOCKER_USERNAME }}/eonedu_cicd
-            docker stop eonedu_cicd
-            sleep 5s
-            docker run --rm --name eonedu_cicd -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/eonedu_cicd
-            docker image prune -f
+            sudo docker ps
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/eonedu_cicd
+            sudo docker stop eonedu_cicd
+            sudo sleep 5s
+            sudo docker run --rm --name eonedu_cicd -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/eonedu_cicd
+            sudo docker image prune -f

@@ -45,23 +45,23 @@ public class ReservationService {
     // 상담 예약 생성
     @Transactional
     public ClientReservation createClientReservation(ClientReservationCreateRequest request){
-        Branch branch = branchRepository.findById(request.getBranchId())
+        Branch branch = branchRepository.findById(request.branchId())
                 .orElseThrow(() -> new IllegalArgumentException("Branch not found"));
 
-        CounselType counselType = counselTypeRepository.findById(request.getCounselTypeId())
+        CounselType counselType = counselTypeRepository.findById(request.counselTypeId())
                 .orElseThrow(() -> new IllegalArgumentException("CounselType not found"));
 
-        ReservationTime reservationTime = ReservationTime.find(request.getTime());
+        ReservationTime reservationTime = ReservationTime.find(request.time());
 
-        validatePossibleReservation(counselType, branch, request.getDate(), reservationTime);
+        validatePossibleReservation(counselType, branch, request.date(), reservationTime);
 
         ClientReservation clientReservation = ClientReservation.builder()
                 .branch(branch)
                 .counselType(counselType)
-                .date(request.getDate())
-                .time(ReservationTime.find(request.getTime()))
-                .clientName(request.getClientName())
-                .clientPhone(request.getClientPhone())
+                .date(request.date())
+                .time(ReservationTime.find(request.time()))
+                .clientName(request.clientName())
+                .clientPhone(request.clientPhone())
                 .build();
 
         return clientReservationRepository.save(clientReservation);

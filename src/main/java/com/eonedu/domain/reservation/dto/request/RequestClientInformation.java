@@ -1,12 +1,6 @@
 package com.eonedu.domain.reservation.dto.request;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotEmpty;
 
-@Getter @Setter
-@NoArgsConstructor
-public class RequestClientInformation {
-    private String clientName;
-    private String clientPhone;
-}
+public record RequestClientInformation (@NotEmpty String clientName,
+                                        @NotEmpty String clientPhone) { }

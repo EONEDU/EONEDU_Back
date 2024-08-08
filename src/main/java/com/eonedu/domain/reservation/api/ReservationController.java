@@ -7,6 +7,7 @@ import com.eonedu.domain.reservation.dto.request.ClientReservationCreateRequest;
 import com.eonedu.domain.reservation.dto.request.RequestClientInformation;
 import com.eonedu.domain.reservation.dto.response.ClientReservationResponse;
 import com.eonedu.domain.reservation.dto.response.ReservationByDateResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,31 +25,31 @@ public class ReservationController {
                                                            @RequestParam Long counselTypeId,
                                                            @RequestParam LocalDate date){
             List<Reservation> reservations = reservationService.findExistedReservation(branchId, counselTypeId, date);
-            return new ReservationByDateResponse(reservations);
+            return ReservationByDateResponse.from(reservations);
     }
 
     // 상담 예약 생성하는 API
     @PostMapping("/v1/reservations")
-    public ClientReservationResponse createClientReservation(@RequestBody ClientReservationCreateRequest request){
+    public ClientReservationResponse createClientReservation(@Valid @RequestBody ClientReservationCreateRequest request){
         ClientReservation reservation = reservationService.createClientReservation(request);
 
-        return new ClientReservationResponse(reservation);
+        return ClientReservationResponse.from(reservation);
     }
 
     // uuid, 고객 이름, 전화번호 이용해 상담 예약 조회하는 API
     @PostMapping("/v1/reservations/{reservationUuid}")
     public ClientReservationResponse getClientReservation(@PathVariable String reservationUuid,
-                                                        @RequestBody RequestClientInformation request){
-        ClientReservation reservation = reservationService.findClientReservation(reservationUuid, request.getClientName(), request.getClientPhone());
-        return new ClientReservationResponse(reservation);
+                                                        @Valid @RequestBody RequestClientInformation request){
+        ClientReservation reservation = reservationService.findClientReservation(reservationUuid, request.clientName(), request.clientPhone());
+        return ClientReservationResponse.from(reservation);
     }
 
     // uuid, 고객 이름, 전화번호 이용해 상담 예약 삭제하는 API
     @PostMapping("/v1/reservations/{reservationUuid}/delete")
     public String deleteReservation(@PathVariable String reservationUuid,
-                                    @RequestBody RequestClientInformation request){
+                                    @Valid @RequestBody RequestClientInformation request){
 
-        reservationService.cancelClientReservation(reservationUuid, request.getClientName(), request.getClientPhone());
+        reservationService.cancelClientReservation(reservationUuid, request.clientName(), request.clientPhone());
         return "Reservation deleted";
     }
 }

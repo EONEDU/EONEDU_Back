@@ -18,7 +18,7 @@ public class BranchController {
     @GetMapping("/v1/branches")
     public BranchFindAllResponse findAll() {
 
-        return new BranchFindAllResponse(branchService.findAll());
+        return BranchFindAllResponse.from(branchService.findAll());
     }
 
     @PostMapping("/admin/v1/branches")

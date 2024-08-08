@@ -15,7 +15,7 @@ public class BranchService {
     private final BranchRepository branchRepository;
     @Transactional
     public Branch createBranch(BranchCreateRequest request) {
-        Branch branch = Branch.from(request.getName());
+        Branch branch = Branch.from(request.name());
 
         return branchRepository.save(branch);
     }

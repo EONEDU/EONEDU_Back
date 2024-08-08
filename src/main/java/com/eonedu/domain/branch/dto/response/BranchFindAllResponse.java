@@ -1,30 +1,21 @@
 package com.eonedu.domain.branch.dto.response;
 
 import com.eonedu.domain.branch.domain.Branch;
-import com.eonedu.domain.counseltype.domain.CounselType;
-import lombok.Getter;
 
 import java.util.List;
 
-@Getter
-public class BranchFindAllResponse {
-    private List<BranchDto> branches;
+public record BranchFindAllResponse (List<BranchDto> branches){
 
-    public BranchFindAllResponse(List<Branch> branches) {
-        this.branches = branches.stream()
-                .map(BranchDto::new)
-                .toList();
+    public static BranchFindAllResponse from(List<Branch> branches) {
+        return new BranchFindAllResponse(branches.stream()
+                .map(BranchDto::from)
+                .toList());
     }
 
+    static record BranchDto (Long id, String name) {
 
-    @Getter
-    static class BranchDto {
-        private Long id;
-        private String name;
-
-        public BranchDto(Branch branch) {
-            this.id = branch.getId();
-            this.name = branch.getName();
+        public static BranchDto from(Branch branch) {
+            return new BranchDto(branch.getId(), branch.getName());
         }
     }
 }

@@ -53,7 +53,7 @@ public class ReservationService {
 
         ReservationTime reservationTime = ReservationTime.find(request.getTime());
 
-        isReservationPossible(counselType, branch, request.getDate(), reservationTime);
+        validatePossibleReservation(counselType, branch, request.getDate(), reservationTime);
 
         ClientReservation clientReservation = ClientReservation.builder()
                 .branch(branch)
@@ -94,7 +94,7 @@ public class ReservationService {
     }
 
     // 특정 지점, 상담 유형, 날짜, 시간에 예약이 가능한지 확인
-    private void isReservationPossible(CounselType counselType, Branch branch, LocalDate date, ReservationTime time){
+    private void validatePossibleReservation(CounselType counselType, Branch branch, LocalDate date, ReservationTime time){
         // Check if the reservation already exists
         reservationRepository.findByBranchAndCounselTypeAndDate(branch, counselType, date)
                 .forEach((reservation) -> {

@@ -4,12 +4,14 @@ import com.eonedu.domain.branch.domain.Branch;
 import com.eonedu.domain.counseltype.domain.CounselType;
 import com.eonedu.domain.model.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Getter
 @Entity
+@Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Reservation extends BaseEntity{
     @Id

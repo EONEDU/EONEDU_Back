@@ -4,6 +4,7 @@ import com.eonedu.domain.branch.application.BranchService;
 import com.eonedu.domain.branch.domain.Branch;
 import com.eonedu.domain.branch.dto.request.BranchCreateRequest;
 import com.eonedu.domain.branch.dto.response.BranchFindAllResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ public class BranchController {
     }
 
     @PostMapping("/admin/v1/branches")
-    public Long createBranch(@RequestBody BranchCreateRequest request) {
+    public Long createBranch(@Valid @RequestBody BranchCreateRequest request) {
         Branch branch = branchService.createBranch(request);
 
         return branch.getId();

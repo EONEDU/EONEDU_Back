@@ -24,11 +24,11 @@ public class Reservation extends BaseEntity{
     @Enumerated(EnumType.STRING)
     protected ReservationTime time;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "branch_id")
     protected Branch branch;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "counsel_type_id")
     protected CounselType counselType;
 }

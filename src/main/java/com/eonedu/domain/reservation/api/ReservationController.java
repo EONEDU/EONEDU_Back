@@ -9,6 +9,7 @@ import com.eonedu.domain.reservation.dto.response.ClientReservationResponse;
 import com.eonedu.domain.reservation.dto.response.ReservationByDateResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -45,11 +46,11 @@ public class ReservationController {
     }
 
     // uuid, 고객 이름, 전화번호 이용해 상담 예약 삭제하는 API
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("/v1/reservations/{reservationUuid}/delete")
-    public String deleteReservation(@PathVariable String reservationUuid,
+    public void deleteReservation(@PathVariable String reservationUuid,
                                     @Valid @RequestBody ClientReservationRequest request){
 
         reservationService.cancelClientReservation(reservationUuid, request.clientName(), request.clientPhone());
-        return "Reservation deleted";
     }
 }

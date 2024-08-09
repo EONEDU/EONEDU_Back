@@ -37,5 +37,8 @@ out/
 
 ### Property files ###
 *.properties
-.env
 
+### DB Files ###
+.db
+
+/.env

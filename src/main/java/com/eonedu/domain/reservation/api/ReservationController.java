@@ -4,7 +4,7 @@ import com.eonedu.domain.reservation.application.ReservationService;
 import com.eonedu.domain.reservation.domain.ClientReservation;
 import com.eonedu.domain.reservation.domain.Reservation;
 import com.eonedu.domain.reservation.dto.request.ClientReservationCreateRequest;
-import com.eonedu.domain.reservation.dto.request.RequestClientInformation;
+import com.eonedu.domain.reservation.dto.request.ClientReservationRequest;
 import com.eonedu.domain.reservation.dto.response.ClientReservationResponse;
 import com.eonedu.domain.reservation.dto.response.ReservationByDateResponse;
 import jakarta.validation.Valid;
@@ -39,7 +39,7 @@ public class ReservationController {
     // uuid, 고객 이름, 전화번호 이용해 상담 예약 조회하는 API
     @PostMapping("/v1/reservations/{reservationUuid}")
     public ClientReservationResponse getClientReservation(@PathVariable String reservationUuid,
-                                                        @Valid @RequestBody RequestClientInformation request){
+                                                        @Valid @RequestBody ClientReservationRequest request){
         ClientReservation reservation = reservationService.findClientReservation(reservationUuid, request.clientName(), request.clientPhone());
         return ClientReservationResponse.from(reservation);
     }
@@ -47,7 +47,7 @@ public class ReservationController {
     // uuid, 고객 이름, 전화번호 이용해 상담 예약 삭제하는 API
     @PostMapping("/v1/reservations/{reservationUuid}/delete")
     public String deleteReservation(@PathVariable String reservationUuid,
-                                    @Valid @RequestBody RequestClientInformation request){
+                                    @Valid @RequestBody ClientReservationRequest request){
 
         reservationService.cancelClientReservation(reservationUuid, request.clientName(), request.clientPhone());
         return "Reservation deleted";

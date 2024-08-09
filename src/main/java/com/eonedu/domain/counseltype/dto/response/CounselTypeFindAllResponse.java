@@ -4,19 +4,11 @@ import com.eonedu.domain.counseltype.domain.CounselType;
 
 import java.util.List;
 
-public record CounselTypeFindAllResponse (List<CounselTypeDto> counselTypes) {
+public record CounselTypeFindAllResponse (List<CounselTypeResponse> counselTypes) {
 
     public static CounselTypeFindAllResponse from(List<CounselType> counselTypes) {
         return new CounselTypeFindAllResponse(counselTypes.stream()
-                .map(CounselTypeDto::from)
+                .map(CounselTypeResponse::from)
                 .toList());
-    }
-
-
-    static record CounselTypeDto (Long id, String name) {
-
-        public static CounselTypeDto from(CounselType counselType) {
-            return new CounselTypeDto(counselType.getId(), counselType.getName());
-        }
     }
 }
